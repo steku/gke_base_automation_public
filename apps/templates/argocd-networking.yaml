@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-networking
+  # You'll usually want to add your resources to the argocd namespace.
+  namespace: argocd
+  # Add a this finalizer ONLY if you want these to cascade delete.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # The project the application belongs to.
+  project: base-system
+
+  # Source of the application manifests
+  source:
+    repoURL: {{ .Values.argocdNetworking.repoUrl }}
+    targetRevision: {{ .Values.argocdNetworking.targetRevision }}
+    path: {{ .Values.argocdNetworking.path }}
+
+  # Destination cluster and namespace to deploy the application
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  # Ignore differences at the specified json pointers
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas

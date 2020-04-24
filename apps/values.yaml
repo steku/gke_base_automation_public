@@ -1,0 +1,26 @@
+
+argocdNetworking:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: argocd_networking
+  targetRevision: HEAD
+certManager:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: cert-manager
+  targetRevision: HEAD
+istioSecrets:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: istio/secrets
+  targetRevision: HEAD
+istioDeployment:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: istio/deploy
+  targetRevision: HEAD
+istioServices:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: istio/services
+  targetRevision: HEAD
+tekton:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: tekton
+  targetRevision: HEAD
+

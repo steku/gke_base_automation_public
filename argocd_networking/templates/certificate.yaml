@@ -1,0 +1,15 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: argocd-cert
+  namespace: argocd
+spec:
+  secretName: argocd-secret
+  issuerRef:
+    name: letsencrypt-prod-istio
+    kind: ClusterIssuer
+  commonName: {{ .Values.commonName }}
+  dnsNames:
+  {{- toYaml .Values.dnsNames | nindent 2 }}
+---

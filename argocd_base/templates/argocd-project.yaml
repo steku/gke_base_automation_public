@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: base-system
+  namespace: argocd
+spec:
+  description: base components
+  destinations:
+  - namespace: '*'
+    server: https://kubernetes.default.svc
+  sourceRepos:
+  {{- toYaml .Values.argocd.project.sourceRepos | nindent 4 }}
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
