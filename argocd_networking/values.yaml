@@ -1,0 +1,3 @@
+commonName: argocd.your-domain.tld
+dnsNames:
+  - argocd.your-domain.tld

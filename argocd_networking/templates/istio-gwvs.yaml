@@ -1,0 +1,40 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: argocd-gateway
+  namespace: argocd
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: PASSTHROUGH
+    hosts:
+    {{- toYaml .Values.dnsNames | nindent 4 }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd-virtualservice
+  namespace: argocd
+spec:
+  hosts:
+  {{- toYaml .Values.dnsNames | nindent 2 }}
+  gateways:
+  - argocd-gateway
+  tls:
+  - match:
+    - port: 443
+      sni_hosts:
+      {{- toYaml .Values.dnsNames | nindent 6 }}
+    route:
+    - destination:
+        port:
+          number: 443
+        host: argocd-server
+---

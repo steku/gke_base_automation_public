@@ -1,0 +1,27 @@
+
+vault:
+  role_name: kes
+  auth_path: kes
+
+kes:
+  namespace: kes
+
+argocd:
+  repositories:
+    - url: git@github.com:steku/gke_base_automation.git
+    - url: git@github.com:steku/microservices-demo-tekton-kes.git
+    - url: git@github.com:steku/microservices-demo-app.git
+  repositoryCredentials: git@github.com:steku
+  project:
+    sourceRepos:
+      - git@github.com:steku/gke_base_automation_public.git
+  externalSecret:
+    githubSshKey:
+      key: kes/data/argocd/github
+      property: privateKey
+
+apps:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  targetRevision: HEAD
+  path: apps
+  

@@ -1,0 +1,15 @@
+commonName: kiali-demo.your-domain.tld
+dnsNames:
+  - kiali-demo.your-domain.tld
+  - tracing-demo.your-domain.tld
+  - istio-grafana-demo.your-domain.tld
+
+kiali:
+  dnsName:
+    - kiali-demo.your-domain.tld
+tracing:
+  dnsName:
+    - tracing-demo.your-domain.tld
+istioGrafana:
+  dnsName:
+    - istio-grafana-demo.your-domain.tld

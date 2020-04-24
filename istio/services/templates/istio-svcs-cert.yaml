@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: istio-svcs-cert
+  namespace: istio-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  secretName: istio-svcs-cert
+  issuerRef:
+    name: letsencrypt-prod-istio
+    kind: ClusterIssuer
+  commonName: {{ .Values.commonName }}
+  dnsNames:
+  {{- toYaml .Values.dnsNames | nindent 4 }}

@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-services
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+spec:
+  destination:
+    namespace: istio-system
+    server: https://kubernetes.default.svc
+  project: base-system
+  source:
+    repoURL: {{ .Values.istioServices.repoUrl }}
+    targetRevision: {{ .Values.istioServices.targetRevision }}
+    path: {{ .Values.istioServices.path }}
+
