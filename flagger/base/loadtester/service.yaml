@@ -1,0 +1,20 @@
+---
+# Source: loadtester/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flagger-loadtester
+  labels:
+    app.kubernetes.io/name: loadtester
+    helm.sh/chart: loadtester-0.16.0
+    app.kubernetes.io/instance: flagger
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: loadtester

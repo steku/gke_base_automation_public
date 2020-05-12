@@ -1,0 +1,86 @@
+---
+# Source: flagger/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flagger
+  labels:
+    helm.sh/chart: flagger-0.27.0
+    app.kubernetes.io/name: flagger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: flagger
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: flagger
+      app.kubernetes.io/instance: flagger
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: flagger
+        app.kubernetes.io/instance: flagger
+      annotations:
+        appmesh.k8s.aws/sidecarInjectorWebhook: disabled
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+    spec:
+      serviceAccountName: flagger
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: flagger
+                    app.kubernetes.io/instance: flagger
+                topologyKey: kubernetes.io/hostname
+      volumes:
+      containers:
+        - name: flagger
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsUser: 10001
+          volumeMounts:
+          image: "weaveworks/flagger:1.0.0-rc.4"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: http
+            containerPort: 8080
+          command:
+          - ./flagger
+          - -log-level=info
+          - -mesh-provider=istio
+          - -metrics-server=http://prometheus.istio-system:9090
+          - -enable-config-tracking=true
+          - -slack-user=flagger
+          livenessProbe:
+            exec:
+              command:
+              - wget
+              - --quiet
+              - --tries=1
+              - --timeout=4
+              - --spider
+              - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+              - wget
+              - --quiet
+              - --tries=1
+              - --timeout=4
+              - --spider
+              - http://localhost:8080/healthz
+            timeoutSeconds: 5
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 512Mi
+            requests:
+              cpu: 10m
+              memory: 32Mi

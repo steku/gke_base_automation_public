@@ -1,0 +1,196 @@
+---
+# Source: flagger/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: flagger
+  labels:
+    helm.sh/chart: flagger-0.27.0
+    app.kubernetes.io/name: flagger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: flagger
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - configmaps
+      - configmaps/finalizers
+      - secrets
+      - secrets/finalizers
+      - services
+      - services/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - daemonsets/finalizers
+      - deployments
+      - deployments/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - autoscaling
+    resources:
+      - horizontalpodautoscalers
+      - horizontalpodautoscalers/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - extensions
+      - networking.k8s.io
+    resources:
+      - ingresses
+      - ingresses/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - flagger.app
+    resources:
+      - canaries
+      - canaries/status
+      - metrictemplates
+      - metrictemplates/status
+      - alertproviders
+      - alertproviders/status
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - networking.istio.io
+    resources:
+      - virtualservices
+      - virtualservices/finalizers
+      - destinationrules
+      - destinationrules/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - appmesh.k8s.aws
+    resources:
+      - virtualnodes
+      - virtualnodes/finalizers
+      - virtualservices
+      - virtualservices/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - split.smi-spec.io
+    resources:
+      - trafficsplits
+      - trafficsplits/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - specs.smi-spec.io
+    resources:
+      - httproutegroups
+      - httproutegroups/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - gloo.solo.io
+    resources:
+      - upstreams
+      - upstreams/finalizers
+      - upstreamgroups
+      - upstreamgroups/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - projectcontour.io
+    resources:
+      - httpproxies
+      - httpproxies/finalizers
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - nonResourceURLs:
+      - /version
+    verbs:
+      - get
+---
+# Source: flagger/templates/rbac.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: flagger
+  labels:
+    helm.sh/chart: flagger-0.27.0
+    app.kubernetes.io/name: flagger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: flagger
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flagger
+subjects:
+- name: flagger
+  namespace: flagger
+  kind: ServiceAccount

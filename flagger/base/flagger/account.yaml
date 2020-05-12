@@ -1,0 +1,12 @@
+---
+# Source: flagger/templates/account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: flagger
+  annotations:
+  labels:
+    helm.sh/chart: flagger-0.27.0
+    app.kubernetes.io/name: flagger
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: flagger
