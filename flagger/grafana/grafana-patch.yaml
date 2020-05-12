@@ -1,0 +1,14 @@
+spec:
+  template:
+    spec:      
+      containers:
+      - name: grafana
+        volumeMounts:
+        - mountPath: /var/lib/grafana/dashboards/istio/istio.json
+          name: dashboards-flagger-istio
+          readOnly: true
+          subPath: istio.json
+      volumes:
+      - configMap:
+          name: flagger-grafana-dashboards
+        name: dashboards-flagger-istio

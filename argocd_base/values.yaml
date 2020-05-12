@@ -8,7 +8,7 @@ kes:
 
 argocd:
   repositories:
-    - url: git@github.com:steku/gke_base_automation.git
+    - url: git@github.com:steku/gke_base_automation_public.git
     - url: git@github.com:steku/microservices-demo-tekton-kes.git
     - url: git@github.com:steku/microservices-demo-app.git
   repositoryCredentials: git@github.com:steku

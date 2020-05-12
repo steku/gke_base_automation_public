@@ -23,4 +23,7 @@ tekton:
   repoUrl: git@github.com:steku/gke_base_automation_public.git
   path: tekton
   targetRevision: HEAD
-
+HEADBase:
+  repoUrl: git@github.com:steku/gke_base_automation_public.git
+  path: HEAD/base
+  targetRevision: HEAD
